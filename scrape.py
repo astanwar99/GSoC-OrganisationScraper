@@ -5,7 +5,7 @@ import warnings
 import signal
 from bs4 import BeautifulSoup
 
-url = "https://summerofcode.withgoogle.com/organizations/"
+url = "https://summerofcode.withgoogle.com/archive/2018/organizations/"
 default = "https://summerofcode.withgoogle.com"
 
 #To avoid warning messages 
@@ -40,7 +40,6 @@ def scrape():
     orgs = soup.findAll('li', attrs={'class': 'organization-card__container'})
 
     for org in orgs:
-        print(org)
         link = org.find('a', attrs={'class': 'organization-card__link'})
         org_name = org['aria-label']
         org_link = default + link['href']
@@ -51,14 +50,16 @@ def scrape():
                 'class': 'organization__tag organization__tag--technology'
             }
         )
-        print(soup)
-        print(tags)
+        description_element = soup.find('div', attrs={'class': 'org__long-description'})
+        description = description_element.p.text
+
+        print ("Name: " + org_name)
+        print ("Link: " + org_link)
+        print ("Tag: ")
+        print ("Description: " + description)
         for tag in tags:
-            if user_pref in tag.text:
-                print ("Name: " + org_name)
-                print ("Link: " + org_link)
-                print ("No. of times in GSoC: " + str(number + 1) + '\n')
-                count += 1
+            print (", " + tag.text)
+            count += 1
 
     if count == 0:
         print ("Enter a valid technology name.")
