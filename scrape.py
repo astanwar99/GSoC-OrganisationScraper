@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 import requests
 import sys
+import warnings
 from bs4 import BeautifulSoup
 
 url = "https://summerofcode.withgoogle.com/organizations/"
 default = "https://summerofcode.withgoogle.com"
+
+warnings.filterwarnings("ignore")
 
 def scrape():
     if(len(sys.argv) == 2):
