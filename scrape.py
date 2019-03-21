@@ -2,13 +2,28 @@
 import requests
 import sys
 import warnings
+import signal
 from bs4 import BeautifulSoup
 
 url = "https://summerofcode.withgoogle.com/organizations/"
 default = "https://summerofcode.withgoogle.com"
 
+#To avoid warning messages 
 warnings.filterwarnings("ignore")
 
+#Control flow of control through 'Signal' from user.
+def signal_handler(signal, frame):
+    confirmation = raw_input("Really want to exit (y/n)? ") 
+    confirmation.replace(" ", "")
+    confirmation = confirmation.lower()
+    if confirmation == "y" or confirmation == "yes":
+        sys.exit(0)
+    else:
+        return
+
+signal.signal(signal.SIGINT, signal_handler)
+
+#Main function.
 def scrape():
     if(len(sys.argv) == 2):
         user_pref = sys.argv[1]
@@ -21,7 +36,6 @@ def scrape():
 
     response = requests.get(url)
     html = response.content
-
     soup = BeautifulSoup(html)
     orgs = soup.findAll('li', attrs={'class': 'organization-card__container'})
 
@@ -49,5 +63,6 @@ def scrape():
     if count == 0:
         print ("Enter a valid technology name.")
 
+#Calling scrape().
 if __name__ == "__main__":
     scrape()
