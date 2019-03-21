@@ -53,10 +53,20 @@ def scrape():
         description_element = soup.find('div', attrs={'class': 'org__long-description'})
         description = description_element.p.text
 
+        mdButton = soup.findAll('md-button', attrs={'class': 'md-primary org__meta-button'})
+
+        contact = "No contact info available"
+        for link in mdButton:
+            if hasattr(link, 'href'):
+                if 'mailto:' in link['href']:
+                    contact = link['href']
+            
+
         print ("Name: " + org_name)
         print ("Link: " + org_link)
         print ("Tag: ")
         print ("Description: " + description)
+        print (contact)
         for tag in tags:
             print (", " + tag.text)
             count += 1
