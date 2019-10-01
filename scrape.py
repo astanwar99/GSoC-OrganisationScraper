@@ -15,8 +15,7 @@ warnings.filterwarnings("ignore")
 def scrape():
     url = "https://summerofcode.withgoogle.com/archive/2018/organizations/"
     default = "https://summerofcode.withgoogle.com"
-
-    genData_list = []
+    # Create an empty list to store data
     count = 0
     response = requests.get(url)
     html = response.content
@@ -34,6 +33,7 @@ def scrape():
                 'class': 'organization__tag organization__tag--technology'
             }
         )
+        # Create an ampty list tech, We will adding tag.text to it
         tech = []
         for tag in tags:
             tech.append(tag.text)
